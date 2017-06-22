@@ -9,9 +9,10 @@ jsdom.defaultDocumentFeatures = {
 };
 
 class ChartjsNode {
-    constructor(width, height) {
+    constructor(width, height, style) {
         this._width = width;
         this._height = height;
+        this._style = style;
     }
     /**
      * @returns {Number} the width of the chart/canvas in pixels
@@ -30,6 +31,7 @@ class ChartjsNode {
         configuration.options.animation = false;
         configuration.options.width = this.width;
         configuration.options.height = this.height;
+        configuration.options.style = this.style;
     }
     /**
      * Draws the chart given the Chart.js configuration
@@ -39,7 +41,7 @@ class ChartjsNode {
     drawChart(configuration) {
         // ensure we clean up any existing window if drawChart was called more than once.
         this.destroy();
-        return jsdom.envAsync('<html><body><div id="chart-div" style="font-size:12; width:' + this.width + '; height:' + this.height + ';"><canvas id="myChart" width="' + this.width + '" height="' + this.height + '"></canvas>></div></body></html>',
+        return jsdom.envAsync('<html><body><div id="chart-div" style="font-size:12; ' + this.style + ' width:' + this.width + '; height:' + this.height + ';"><canvas id="myChart" width="' + this.width + '" height="' + this.height + '"></canvas>></div></body></html>',
             [])
             .then(window => {
                 this._window = window;
